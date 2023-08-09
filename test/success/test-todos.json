@@ -1,0 +1,48 @@
+{
+  "testUnits": [
+    {
+      "name": "Get a list of TODOs",
+      "description": "Get a list of TODOs",
+      "endpointDetails": {
+        "url": "${ endpointRoot }",
+        "method": "GET",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "validation": {
+        "statusCode": 200
+      },
+      "variablesToSet": [
+        {
+          "variableName": "todoId",
+          "path": "responseBody.0.id"
+        }
+      ]
+    },
+    {
+      "name": "Get a first TODO from the list",
+      "description": "Get the first TODO from the list",
+      "endpointDetails": {
+        "url": "${ endpointRoot }/${ todoId }",
+        "method": "GET",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "validation": {
+        "statusCode": 200,
+        "assertions": [
+          {
+            "path": "responseBody.id",
+            "assertion": "value = ${ todoId }"
+          },
+          {
+            "path": "responseBody.userId",
+            "assertion": "exists"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "testUnitsConfigs": ["test-invalid-endpoint.json"],
+  "initialTestRunVariables": {
+    "endpointRoot": "https://jsonplaceholder.typicode.com/todos"
+  },
+  "testRunnerOptions": {
+    "debugResponseOptions": {
+      "showRequestErrors": true,
+      "showStatusCode": true,
+      "showHeaders": true,
+      "showBody": true
+    }
+  }
+}

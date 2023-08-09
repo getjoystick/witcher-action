@@ -1,0 +1,24 @@
+{
+  "testUnits": [
+    {
+      "name": "Get a list of TODOs",
+      "description": "Get a list of TODOs",
+      "endpointDetails": {
+        "url": "${ endpointRoot }/invalid-endpoint",
+        "method": "GET",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      },
+      "validation": {
+        "statusCode": 200
+      },
+      "variablesToSet": [
+        {
+          "variableName": "todoId",
+          "path": "responseBody.0.id"
+        }
+      ]
+    }
+  ]
+}

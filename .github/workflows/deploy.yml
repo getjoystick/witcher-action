@@ -1,0 +1,60 @@
+name: Self Testing
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  witcher_action_self_testing:
+    name: Witcher Action Self Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Run CI
+        run: npm ci
+      - name: Run Lint
+        run: npm run lint
+      - name: Run Build
+        run: npm run build
+
+      - name: Local run
+        uses: ./
+        with:
+          source: local
+          # Uncomment after witcher allows empty JSON for secret
+          #secretJson: ${{ secrets.TEST_SECRET }}
+          localConfigPath: ./test/success/root-jsonplaceholder.json
+
+      - name: Joystick run
+        uses: ./
+        with:
+          source: joystick
+          apiKey: ${{ secrets.JOYSTICK_API_KEY }}
+          # Uncomment after witcher allows empty JSON for secret
+          #secretJson: ${{ secrets.TEST_SECRET }}
+          configId: "root-jsonplaceholder"
+
+      - name: Local run (failure expected)
+        id: local_run_failure
+        continue-on-error: true
+        uses: ./
+        with:
+          source: local
+          # Uncomment after witcher allows empty JSON for secret
+          #secretJson: ${{ secrets.TEST_SECRET }}
+          localConfigPath: ./test/fail/root-jsonplaceholder.json
+
+      - name: Assert expected failure for previous step (step is expected to be skipped)
+        if: ${{ steps.local_run_failure.conclusion == 'failure' }}
+        run: exit 1

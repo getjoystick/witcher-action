@@ -1,0 +1,33 @@
+name: "Run API test with Witcher"
+description: "Deploy your API tests from GitHub using Witcher"
+branding:
+  icon: "check"
+  color: "gray-dark"
+runs:
+  using: "node16"
+  main: "dist/index.js"
+inputs:
+  source:
+    description: "The source of the test (`joystick` or `local`)"
+    required: true
+
+  secretJson:
+    description: "JSON containing the secrets for the test ()"
+    required: false
+
+  version:
+    description: "The version of the `witcher` to use (if not provided and not installed in the repo, the latest version will be used)"
+    required: false
+
+  # Joystick related only
+  apiKey:
+    description: "Joystick environment API key (more details at https://docs.getjoystick.com/api-reference-api-key/)"
+    required: false
+  configId:
+    description: "Config ID in Joystick with root config"
+    required: false
+
+  # Local related only
+  localConfigPath:
+    description: "Path to the local root config file"
+    required: false
